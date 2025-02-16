@@ -1,0 +1,53 @@
+# ./plants/*
+documents/
+documents
+# *.txt
+text/
+text
+
+db.sqlite3
+# dockerfile
+
+# Git
+.git
+.gitignore
+
+# Docker
+.docker
+
+# Python
+.idea
+app/__pyache__/
+app/*__pyache__/
+app/*/*/__pyache__/
+app/*/*/*/__pyache__/
+.env/
+.venv/
+venv/
+
+# ./plants/*
+documents/
+documents
+# *.txt
+text/
+text
+
+db.sqlite3
+# dockerfile
+
+# Git
+.git
+.gitignore
+
+# Docker
+.docker
+
+# Python
+.idea
+app/__pyache__/
+app/*__pyache__/
+app/*/*/__pyache__/
+app/*/*/*/__pyache__/
+.env/
+.venv/
+venv/

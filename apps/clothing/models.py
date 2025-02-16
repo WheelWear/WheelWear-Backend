@@ -4,7 +4,7 @@ from django.conf import settings
 class ClothType(models.TextChoices):
     TOP = 'Top', 'Top'
     BOTTOM = 'Bottom', 'Bottom'
-    ONEPIECE = 'Onepiece', 'Onepiece'
+    DRESS = 'Dress', 'Dress'
 
 # class ClothSubTypeEnum(models.TextChoices):
 #     JEANS = 'Jeans', 'Jeans'
@@ -27,6 +27,7 @@ class ClothSubType(models.Model):
 class Cloth(models.Model):
     clothImage = models.ImageField(upload_to='clothes/', blank=False, null=False)
     type = models.CharField(max_length=10, choices=ClothType.choices)
+    brand = models.CharField(max_length=255, blank=True, null=True)
     isFavorite = models.BooleanField(default=False)
     createdAt = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='owner')

@@ -25,6 +25,7 @@ class VirtualTryOnImageListSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'owner', 'image', 'title',
             'top_cloth', 'bottom_cloth', 'body_image',
+            'dress_cloth', 
             'is_favorite', 'created_at', 'uploaded_at'
         ]
         
@@ -37,15 +38,17 @@ class VirtualTryOnImageCreateUpdateSerializer(serializers.ModelSerializer):
             'title', 
             'top_cloth', 
             'bottom_cloth', 
+            'dress_cloth', 
             'body_image', 
             'is_favorite'
         ]
+        read_only_fields = ['image']  # 사용자 입력을 막기 위해 read_only 설정
         
 #########################################
 # (2) 디테일(detail)용 Nested Serializer
 #########################################
 
-# VirtualTryOnImage 디테일 Serializer: 각 외래키를 위의 nested serializer로 표시합니다.
+# VirtualTryOnImage 디테일 Serializer: 각 외래키를 위의 nested serializer로 표시.
 class VirtualTryOnImageDetailSerializer(serializers.ModelSerializer):
     top_cloth = ClothSerializer(read_only=True)
     bottom_cloth = ClothSerializer(read_only=True)
@@ -55,6 +58,7 @@ class VirtualTryOnImageDetailSerializer(serializers.ModelSerializer):
         model = VirtualTryOnImage
         fields = [
             'id', 'image', 'title',
+            'dress_cloth', 
             'top_cloth', 'bottom_cloth', 'body_image',
             'is_favorite', 'created_at', 'uploaded_at'
         ]

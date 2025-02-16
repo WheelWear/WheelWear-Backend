@@ -12,14 +12,14 @@ class BodyImageAdmin(admin.ModelAdmin):
     readonly_fields = ('image_preview',)
     
     def image_preview(self, obj):
-        if obj.image:
-            return format_html('<img src="{}" style="max-height: 100px; max-width: 100px;" />', obj.image.url)
+        if obj.body_image:
+            return format_html('<img src="{}" style="max-height: 100px; max-width: 100px;" />', obj.body_image.url)
         return "No Image"
     image_preview.short_description = 'Image Preview'
 
 class VirtualTryOnImageAdmin(admin.ModelAdmin):
     list_display = ('title', 'owner', 'created_at', 'is_favorite', 
-                'top_cloth', 'bottom_cloth', 'body_image', 'image_preview')
+                'top_cloth', 'bottom_cloth', 'dress_cloth', 'body_image', 'image_preview')
     list_filter = ('owner', 'created_at', 'is_favorite', 
                 'top_cloth', 'bottom_cloth')
     search_fields = ('title', 'owner__username', 

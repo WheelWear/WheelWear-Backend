@@ -30,6 +30,7 @@ class ClothSerializer(serializers.ModelSerializer):
         fields = [
             'id', 
             'clothImage', 
+            'brand', 
             'type', 
             'isFavorite', 
             'createdAt', 

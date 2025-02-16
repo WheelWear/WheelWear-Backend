@@ -24,8 +24,8 @@ class VirtualTryOnImage(models.Model):
         on_delete=models.CASCADE,
         related_name='virtual_tryon_images'
     )
-    
-    image = models.ImageField(upload_to='virtual_tryon_images/')
+    image = models.ImageField(upload_to='virtual_tryon_images/', null=False, blank=False)
+
 
     title = models.CharField(max_length=255)
     top_cloth = models.ForeignKey(
@@ -38,6 +38,12 @@ class VirtualTryOnImage(models.Model):
         'clothing.Cloth',
         on_delete=models.CASCADE,
         related_name='bottom_virtual_tryon_images',
+        null=True
+    )
+    dress_cloth = models.ForeignKey(
+        'clothing.Cloth',
+        on_delete=models.CASCADE,
+        related_name='dress_virtual_tryon_images',
         null=True
     )
     
