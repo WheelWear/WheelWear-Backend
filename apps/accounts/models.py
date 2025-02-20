@@ -18,7 +18,7 @@ class Profile(models.Model):
     phone_number = models.CharField(max_length=15, blank=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     is_reform_provider = models.BooleanField(default=False)
-
+    
     @property
     def age(self):
         if self.birth_date:

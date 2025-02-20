@@ -11,7 +11,7 @@ class BodyImageSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = BodyImage
-        fields = ['id', 'owner', 'body_image', 'title', 'created_at', 'is_favorite']
+        fields = ['id', 'chest_circumference','shoulder_width','arm_length','waist_circumference', 'owner', 'body_image', 'title', 'created_at', 'is_favorite']
 
 # 조회용
 class VirtualTryOnImageListSerializer(serializers.ModelSerializer):
@@ -26,7 +26,7 @@ class VirtualTryOnImageListSerializer(serializers.ModelSerializer):
             'id', 'owner', 'image', 'title',
             'top_cloth', 'bottom_cloth', 'body_image',
             'dress_cloth', 
-            'is_favorite', 'created_at', 'uploaded_at'
+            'is_favorite', 'created_at', 'uploaded_at', 'saved'
         ]
         
 # 생성용, 수정용, 삭제용 Serializers
@@ -40,7 +40,8 @@ class VirtualTryOnImageCreateUpdateSerializer(serializers.ModelSerializer):
             'bottom_cloth', 
             'dress_cloth', 
             'body_image', 
-            'is_favorite'
+            'is_favorite', 
+            'saved'
         ]
         read_only_fields = ['image']  # 사용자 입력을 막기 위해 read_only 설정
         
@@ -60,5 +61,5 @@ class VirtualTryOnImageDetailSerializer(serializers.ModelSerializer):
             'id', 'image', 'title',
             'dress_cloth', 
             'top_cloth', 'bottom_cloth', 'body_image',
-            'is_favorite', 'created_at', 'uploaded_at'
+            'is_favorite', 'created_at', 'uploaded_at', 'saved'
         ]

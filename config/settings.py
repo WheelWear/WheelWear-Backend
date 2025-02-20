@@ -31,7 +31,8 @@ env = environ.Env(DEBUG=(bool, False))
 APPEND_SLASH=True # url요청시 자동으로 /를 생성해주는걸 막는다.
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-2nk8^)j)6dg+$ymsb*vnf3h5svijq&z2&5_iqfhh!xtqcwdq06')
 DEBUG = env('DEBUG', default=True)
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+ALLOWED_HOSTS = ['*']
+CORS_ALLOW_ALL_ORIGINS = True  # 개발 중에는 모든 도메인 허용
 # SECRET_KEY = env('SECRET_KEY')
 # DEBUG = env('DEBUG')
 # ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
@@ -56,6 +57,7 @@ INSTALLED_APPS += [
     'corsheaders',  # CORS 허용 설정 시 사용
 ]
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",

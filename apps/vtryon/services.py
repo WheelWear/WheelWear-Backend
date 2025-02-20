@@ -28,6 +28,6 @@ def get_ai_result_image(top_cloth, bottom_cloth, dress_cloth, body_image):
         response.raise_for_status() # 응답 오류 시 예외 발생
         result = response.json()
         
-        return base_url+result.get("result_image_url")
+        return result.get("result_image_url")
     except requests.RequestException as e:
         raise Exception(f"AI 서버와 통신 중 문제가 발생했습니다: {str(e)}")

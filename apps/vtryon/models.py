@@ -12,7 +12,10 @@ class BodyImage(models.Model):
     title = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     is_favorite = models.BooleanField(default=False)
-
+    chest_circumference = models.IntegerField(null=True, blank=True)
+    shoulder_width = models.IntegerField(null=True, blank=True)
+    arm_length = models.IntegerField(null=True, blank=True)
+    waist_circumference = models.IntegerField(null=True, blank=True)
     def __str__(self):
         return self.title
 
@@ -24,9 +27,8 @@ class VirtualTryOnImage(models.Model):
         on_delete=models.CASCADE,
         related_name='virtual_tryon_images'
     )
-    image = models.ImageField(upload_to='virtual_tryon_images/', null=False, blank=False)
-
-
+    saved = models.BooleanField(default=False)
+    image = models.CharField(max_length=255, null=False, blank=False)
     title = models.CharField(max_length=255)
     top_cloth = models.ForeignKey(
         'clothing.Cloth',

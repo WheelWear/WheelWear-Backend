@@ -5,14 +5,12 @@ class ClothType(models.TextChoices):
     TOP = 'Top', 'Top'
     BOTTOM = 'Bottom', 'Bottom'
     DRESS = 'Dress', 'Dress'
+    
 
-# class ClothSubTypeEnum(models.TextChoices):
-#     JEANS = 'Jeans', 'Jeans'
-#     SHORTS = 'Shorts', 'Shorts'
-#     TSHIRT = 'TShirt', 'TShirt'
-#     HOODIE = 'Hoodie', 'Hoodie'
-#     SPORTSWEAR_TOP = 'SportswearTop', 'SportswearTop'
-#     SPORTSWEAR_BOTTOM = 'SportswearBottom', 'SportswearBottom'
+class ClosetCategory(models.TextChoices):
+    MYCLOTHES = 'myClothes', 'myClothes'
+    WISHLIST = 'wishlist', 'wishlist'
+    DONATION = 'donation', 'donation'
 
 class ClothSubType(models.Model):
     id = models.AutoField(primary_key=True)  # 명시적 기본 키 (정수형)
@@ -26,8 +24,10 @@ class ClothSubType(models.Model):
 
 class Cloth(models.Model):
     clothImage = models.ImageField(upload_to='clothes/', blank=False, null=False)
-    type = models.CharField(max_length=10, choices=ClothType.choices)
+    cloth_type = models.CharField(max_length=10, choices=ClothType.choices, default="Top")
+    closet_category = models.CharField(max_length=20, choices=ClosetCategory.choices, default="myClothes")
     brand = models.CharField(max_length=255, blank=True, null=True)
+    size = models.CharField(max_length=255, blank=True, null=True)
     isFavorite = models.BooleanField(default=False)
     createdAt = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='owner')

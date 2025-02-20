@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Profile
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.utils import timezone
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     # 읽기 전용 필드 (계산된 속성)
@@ -10,7 +12,10 @@ class ProfileSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Profile
-        fields = ['name', 'gender', 'birth_date', 'age', 'bio', 'phone_number', 'profile_picture', 'is_reform_provider']
+        fields = ['name', 'gender',
+                'birth_date', 'age', 'bio',
+                'phone_number', 'profile_picture',
+                'is_reform_provider']
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -37,14 +42,18 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
         
-        # 기본 사용자 정보
+        # 첫 로그인 여부 확인
+        is_first_login = self.user.last_login is None
+        
+        # last_login 업데이트 전에 기록을 남기고 싶다면, 여기서 is_first_login 정보를 사용
+        self.user.last_login = timezone.now()
+        self.user.save(update_fields=['last_login'])
+        
         data.update({
             'username': self.user.username,
             'id': self.user.id,
-            'date_joined': self.user.date_joined
+            'date_joined': self.user.date_joined,
+            'is_first_login': is_first_login,  # 프론트엔드에 전달할 수도 있습니다.
         })
-        
-        # 프로필 정보 추가 (시리얼라이저 활용)
-        data['profile'] = ProfileSerializer(self.user.profile).data
         
         return data

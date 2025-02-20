@@ -12,7 +12,6 @@ from .serializers import (
     VirtualTryOnImageDetailSerializer
 )
 from .permissions import IsOwner
-from .utils import download_and_save_image
 
 class BodyImageViewSet(viewsets.ModelViewSet):
     queryset = BodyImage.objects.all()
@@ -56,11 +55,11 @@ class VirtualTryOnImageViewSet(viewsets.ModelViewSet):
             return Response(output_serializer.data, status=status.HTTP_200_OK)
 
         # 없으면 생성 진행
-        self._process_ai_and_save(serializer, request.user)
+        self._process_ai(serializer, request.user)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-    def _process_ai_and_save(self, serializer, user, instance=None):
+    def _process_ai(self, serializer, user, instance=None):
         """
         공통 AI 이미지 처리 및 모델 저장 로직
         """
@@ -72,10 +71,12 @@ class VirtualTryOnImageViewSet(viewsets.ModelViewSet):
 
         # 모델 인스턴스 저장
         virtual_tryon = serializer.save(owner=user)
+        
+        virtual_tryon.image = ai_result_image_url
+        virtual_tryon.save()
 
-        # AI 서버에서 받은 이미지 다운로드 및 저장
-        if ai_result_image_url:
-            download_and_save_image(virtual_tryon, ai_result_image_url)
+        # return virtual_tryon
+
 
     def _build_filter_kwargs(self, validated_data):
         """ 기존 객체 조회를 위한 필터 조건 생성 """
@@ -165,7 +166,7 @@ class VirtualTryOnImageViewSet(viewsets.ModelViewSet):
 
         existing = VirtualTryOnImage.objects.filter(**filter_kwargs).exclude(image='').first()
         if existing:
-            return existing.image.url
+            return existing.image
 
         try:
             new_image_url = get_ai_result_image(top_cloth, bottom_cloth, dress_cloth, body_image)
