@@ -40,7 +40,7 @@ ENTRYPOINT ["sh", "/entrypoint.sh"]
 # docker run --env-file .env/docker.env --env-file .env/ai_info.env --env-file .env/init_data.env --env-file .env/django.env -itd -p 8000:8000 -v "C:\Users\009\Desktop\WheelWear\WheelWear-Backend-v1":/usr/src/app/ --name backend_v1.3 --link aiserver:aiserver backend:v1.3
 
 # 클라우드 서비스에서 도커 실행
-# docker run --env-file .env/docker.env --env-file .env/ai_info.env --env-file .env/init_data.env --env-file .env/django.env -itd -p 8000:8000 --name backend_v1.3 backend:v1.3
+# docker run --env-file .env/docker.env --env-file .env/ai_info.env --env-file .env/init_data.env --env-file .env/django.env -itd -p 8000:8000 --name backend_v1.3 --link aiserver:aiserver backend:v1.3
 
 # 도커 허브/azure 컨테이너 허브브에 이미지 업로드
 # docker login or azr login

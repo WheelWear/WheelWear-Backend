@@ -3,6 +3,11 @@ from django.conf import settings
 
 # BodyImage: 사용자의 원본 몸 사진
 class BodyImage(models.Model):
+    GENDER_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other'),
+    ]
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -12,6 +17,7 @@ class BodyImage(models.Model):
     title = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     is_favorite = models.BooleanField(default=False)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
     chest_circumference = models.IntegerField(null=True, blank=True)
     shoulder_width = models.IntegerField(null=True, blank=True)
     arm_length = models.IntegerField(null=True, blank=True)

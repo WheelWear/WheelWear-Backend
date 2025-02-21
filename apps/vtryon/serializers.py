@@ -11,7 +11,7 @@ class BodyImageSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = BodyImage
-        fields = ['id', 'chest_circumference','shoulder_width','arm_length','waist_circumference', 'owner', 'body_image', 'title', 'created_at', 'is_favorite']
+        fields = ['id','gender', 'chest_circumference','shoulder_width','arm_length','waist_circumference', 'owner', 'body_image', 'title', 'created_at', 'is_favorite']
 
 # 조회용
 class VirtualTryOnImageListSerializer(serializers.ModelSerializer):

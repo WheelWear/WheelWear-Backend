@@ -4,7 +4,7 @@ documents
 # *.txt
 text/
 text
-.zip
+*.zip
 
 db.sqlite3
 # dockerfile

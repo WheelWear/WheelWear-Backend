@@ -6,7 +6,7 @@ from django.utils.html import format_html
 from .models import BodyImage, VirtualTryOnImage
 
 class BodyImageAdmin(admin.ModelAdmin):
-    list_display = ('title', 'chest_circumference','shoulder_width','arm_length','waist_circumference', 'owner', 'created_at', 'is_favorite', 'image_preview')
+    list_display = ('title','gender', 'chest_circumference','shoulder_width','arm_length','waist_circumference', 'owner', 'created_at', 'is_favorite', 'image_preview')
     list_filter = ('owner', 'created_at', 'is_favorite')
     search_fields = ('title', 'owner__username')
     readonly_fields = ('image_preview',)
