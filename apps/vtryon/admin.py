@@ -18,7 +18,7 @@ class BodyImageAdmin(admin.ModelAdmin):
     image_preview.short_description = 'Image Preview'
 
 class VirtualTryOnImageAdmin(admin.ModelAdmin):
-    list_display = ('title', 'owner', 'created_at', 'is_favorite', 
+    list_display = ('title','vton_image', 'owner', 'created_at', 'is_favorite', 
                 'top_cloth', 'bottom_cloth', 'dress_cloth', 'body_image', 'image_preview', 'saved')
     list_filter = ('owner', 'created_at', 'is_favorite', 
                 'top_cloth', 'bottom_cloth')

@@ -60,7 +60,16 @@ class VirtualTryOnImage(models.Model):
         BodyImage,
         on_delete=models.CASCADE,
         related_name='virtual_tryon_images',
-        null=True
+        null=True,
+        blank=True
+    )
+    # 자기 자신을 참조
+    vton_image = models.ForeignKey(
+        "self",
+        on_delete=models.CASCADE,
+        related_name='related_virtual_tryon_images',
+        null=True,
+        blank=True
     )
     
     is_favorite = models.BooleanField(default=False)

@@ -39,4 +39,4 @@ EOF
 
 # 배포용 코드
 # exec gunicorn --bind 0.0.0.0:8000 config.wsgi:application  # Gunicorn 실행
-exec gunicorn --bind 0.0.0.0:8000 --reload config.wsgi:application
+exec gunicorn --timeout 600 --bind 0.0.0.0:8000 --reload config.wsgi:application
