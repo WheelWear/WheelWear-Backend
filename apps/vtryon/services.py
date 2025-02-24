@@ -1,16 +1,23 @@
 import environ
 import requests
+import json
 
 env = environ.Env()
 def map_cloth_type(cloth_type):
     mapping = {
         "Top": "upper",
         "Bottom": "lower",
-        "Dress": "dress"
+        "Dress": "overall"
     }
     return mapping.get(cloth_type, cloth_type)
 
-def get_ai_result_image(top_cloth, bottom_cloth, dress_cloth, body_image, vton_image, cloth_type):
+def get_absolute_url(url, request):
+    """ 상대 URL인 경우 절대 URL로 변환 """
+    if url and not url.startswith("http"):
+        return request.build_absolute_uri(url)
+    return url
+
+def get_ai_result_image(top_cloth, bottom_cloth, dress_cloth, body_image, vton_image, cloth_type, request):
     """
     환경변수에 설정된 AI 서버 정보를 이용해 외부 AI 서버와 통신
     """
@@ -27,19 +34,19 @@ def get_ai_result_image(top_cloth, bottom_cloth, dress_cloth, body_image, vton_i
         "cloth_type": cloth_type
     }
     if vton_image:
-        payload["body_image_url"] = vton_image.body_image.url
+        payload["body_image_url"] = vton_image.image
     else:
-        payload["body_image_url"] = body_image.body_image.url
+        payload["body_image_url"] = get_absolute_url(body_image.body_image.url, request)
         
         
     if cloth_type == "upper":
-        payload["top_cloth_url"] = top_cloth.clothImage.url
+        payload["top_cloth_url"] = get_absolute_url(top_cloth.clothImage.url, request)
     elif cloth_type == "lower":
-        payload["bottom_cloth_url"] = bottom_cloth.clothImage.url
-    elif cloth_type == "dress":
-        payload["dress_image_url"] = dress_cloth.clothImage.url
+        payload["bottom_cloth_url"] = get_absolute_url(bottom_cloth.clothImage.url, request)
+    elif cloth_type == "overall":
+        payload["dress_image_url"] = get_absolute_url(dress_cloth.clothImage.url, request)
 
-    print(payload)
+    print(json.dumps(payload))
     
     try:
         headers = {

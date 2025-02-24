@@ -4,12 +4,12 @@ from django.utils.html import format_html
 
 @admin.register(Cloth)
 class ClothAdmin(admin.ModelAdmin):
-    list_display = ('id', 'clothImage','closet_category', 'size', 'cloth_type', 'isFavorite', 'get_cloth_subtypes', 'owner')  # Display related subtypes
-    search_fields = ('owner__username',)  # Search by owner's username
-    filter_horizontal = ('cloth_subtypes',)  # Makes ManyToMany easier to manage
+    list_display = ('id', 'image_preview', 'closet_category', 'size', 'cloth_type', 'isFavorite', 'get_cloth_subtypes', 'owner')
+    search_fields = ('owner__username',)
+    filter_horizontal = ('cloth_subtypes',)
 
     def get_cloth_subtypes(self, obj):
-        return ", ".join([subtype.name for subtype in obj.cloth_subtypes.all()])  # Display comma-separated cloth subtypes
+        return ", ".join([subtype.name for subtype in obj.cloth_subtypes.all()])
     get_cloth_subtypes.short_description = "Cloth Subtypes"
     
     def image_preview(self, obj):

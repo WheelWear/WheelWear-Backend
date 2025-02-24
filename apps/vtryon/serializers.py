@@ -39,8 +39,8 @@ class VirtualTryOnImageCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = VirtualTryOnImage
         fields = [
-            'image', 'title', 'vton_image', 'top_cloth', 
-            'bottom_cloth', 'dress_cloth', 'body_image', 
+            'image', 'title', 'body_image', 'vton_image', 'top_cloth', 
+            'bottom_cloth', 'dress_cloth', 
             'is_favorite', 'saved'
         ]
         read_only_fields = ['image']  # AI 이미지 결과로 채워지므로 외부 입력은 막음

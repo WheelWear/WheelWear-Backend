@@ -14,6 +14,7 @@ from pathlib import Path
 import environ
 import os
 import sys
+from google.oauth2 import service_account
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'storages',
 ]
 INSTALLED_APPS += [
     'apps.accounts',
@@ -143,6 +145,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # MEDIA 사용자가 업로드 -> 보통 Nginx/aws S3의 별도 스토리지 사용용
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# 기본 파일 저장소를 Google Cloud Storage로 설정
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+
+# GCP 버킷 이름
+GS_BUCKET_NAME = env('GCP_BUCKET_NAME')
+
+GS_SERVICE_ACCOUNT_KEY = os.path.join(BASE_DIR, env('GCP_SERVICE_ACCOUNT_KEY'))
+
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(GS_SERVICE_ACCOUNT_KEY)
+
+GS_QUERYSTRING_AUTH = False  # 서명된 URL 사용 활성화
+# GS_EXPIRATION = 86400       # URL 만료 시간을 초 단위로 설정 (예: 86400초 = 24시간)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

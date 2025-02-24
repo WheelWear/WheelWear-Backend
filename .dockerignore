@@ -6,6 +6,8 @@ text/
 text
 *.zip
 
+*.json
+
 db.sqlite3
 # dockerfile
 

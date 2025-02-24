@@ -33,16 +33,19 @@ ENTRYPOINT ["sh", "/entrypoint.sh"]
 # USER django-user
 
 # 도커 이미지 생성
-# docker build -t backend:v1.2 .
+# docker build -t backend:v1.5 .
 
 
 # 도커 실행 ( --restart always)
-# docker run --env-file .env/docker.env --env-file .env/ai_info.env --env-file .env/init_data.env --env-file .env/django.env -itd -p 8000:8000 -v "C:\Users\009\Desktop\WheelWear\WheelWear-Backend-v1":/usr/src/app/ --name backend_v1.3 --link aiserver:aiserver backend:v1.3
-
+# docker run --env-file .env/docker.env --env-file .env/gcp.env --env-file .env/ai_info.env --env-file .env/init_data.env --env-file .env/django.env -itd -p 8000:8000 -v "C:\Users\009\Desktop\WheelWear\WheelWear-Backend-v1":/usr/src/app/ --name backend_v1.3 --link aiserver:aiserver backend:v1.3
+# 링크 없이 실제 서버에 적용
+# docker run --env-file .env/docker.env --env-file .env/gcp.env --env-file .env/ai_info.env --env-file .env/init_data.env --env-file .env/django.env -itd -p 8000:8000 -v "C:\Users\009\Desktop\WheelWear\WheelWear-Backend-v1":/usr/src/app/ --name backend_v1.5 backend:v1.5
 # 클라우드 서비스에서 도커 실행
-# docker run --env-file .env/docker.env --env-file .env/ai_info.env --env-file .env/init_data.env --env-file .env/django.env -itd -p 8000:8000 --name backend_v1.3 --link aiserver:aiserver backend:v1.3
+# sudo docker run --env-file .env/docker.env --env-file .env/gcp.env --env-file .env/ai_info.env --env-file .env/init_data.env --env-file .env/django.env -it -p 8000:8000 -v /home/ditlswlwhs3/wheelwear/:/usr/src/app/ --name backend_v1.4 ditlswlwhs3/backend:v1.4
+# link 클라우드드
+# sudo docker run --env-file .env/docker.env --env-file .env/gcp.env --env-file .env/ai_info.env --env-file .env/init_data.env --env-file .env/django.env -it -p 8000:8000 -v /home/ditlswlwhs3/wheelwear/:/usr/src/app/ --name backend_v1.4 --link aiserver:aiserver ditlswlwhs3/backend:v1.4
 
 # 도커 허브/azure 컨테이너 허브브에 이미지 업로드
 # docker login or azr login
-# docker tag backend:v1.3 ditlswlwhs3/backend:v1.3
-# docker image push ditlswlwhs3/backend:v1.3
+# docker tag backend:v1.5 ditlswlwhs3/backend:v1.5
+# docker image push ditlswlwhs3/backend:v1.5
