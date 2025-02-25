@@ -49,22 +49,22 @@ class VirtualTryOnImageViewSet(viewsets.ModelViewSet):
         else:
             return VirtualTryOnImageCreateUpdateSerializer
 
+
     def create(self, request, *args, **kwargs):
-        
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
+
         body_images = request.user.body_images
         if not body_images:
             raise ValidationError("본인의 사진을 입력해주세요.")
-        
+
         validated_data = serializer.validated_data
         validated_data['body_image'] = body_images
-        
+
         # 데이터 검증 및 수집
         validated_data = self._validate_and_collect_data(validated_data, request.user)
         cloth_type = self._validate_clothing_combination(validated_data)
-
+        
         # 기존 객체 조회 (이미 생성된 객체가 있다면 그대로 반환)
         # existing_instance = self._get_existing_instance(validated_data)
         # if existing_instance:
@@ -76,19 +76,20 @@ class VirtualTryOnImageViewSet(viewsets.ModelViewSet):
         original_instance = validated_data.get('vton_image')
 
         if original_instance:
-            # 원본 vton_image가 있을 경우 기존 객체를 복제하여 필요한 필드만 수정한 후 새 객체 생성
+            # 기존 vton_image가 있을 경우 복제하여 새 객체 생성
             new_instance = self._duplicate_instance_with_modifications(
                 original_instance, validated_data, ai_result_image_url, request.user
             )
-            output_serializer = self.get_serializer(new_instance)
+            output_serializer = VirtualTryOnImageDetailSerializer(new_instance, context=self.get_serializer_context())
             return Response(output_serializer.data, status=status.HTTP_201_CREATED)
         else:
-            # 원본 vton_image가 없는 경우, 일반 생성 로직 수행
+            # 일반 생성 로직 수행
             virtual_tryon = serializer.save(owner=request.user)
             virtual_tryon.image = ai_result_image_url
             virtual_tryon.save()
+            output_serializer = VirtualTryOnImageDetailSerializer(virtual_tryon, context=self.get_serializer_context())
             headers = self.get_success_headers(serializer.data)
-            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+            return Response(output_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def _get_existing_instance(self, validated_data):
         """

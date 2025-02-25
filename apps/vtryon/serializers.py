@@ -49,6 +49,7 @@ class VirtualTryOnImageCreateUpdateSerializer(serializers.ModelSerializer):
 class VirtualTryOnImageDetailSerializer(serializers.ModelSerializer):
     top_cloth = ClothSerializer(read_only=True)
     bottom_cloth = ClothSerializer(read_only=True)
+    dress_cloth = ClothSerializer(read_only=True)
     body_image = BodyImageSerializer(read_only=True)
     # vton_image를 상세보기용으로 Nested 처리
     vton_image = VirtualTryOnImageListSerializer(read_only=True)
