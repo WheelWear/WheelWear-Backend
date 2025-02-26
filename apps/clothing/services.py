@@ -15,6 +15,16 @@ def map_cloth_type(cloth_type: str) -> str:
         "Dress": "원피스"
     }
     return mapping.get(cloth_type, cloth_type)
+def map_gender(gender: str) -> str:
+    """
+    영어 성별을 한글로 매핑합니다.
+    매핑이 없으면 원본 값을 그대로 반환합니다.
+    """
+    mapping = {
+        "M": "남성",
+        "F": "여성"
+    }
+    return mapping.get(gender, gender)
 
 def get_ai_result(
     brand: str, 
@@ -63,10 +73,10 @@ def get_ai_result(
     
     # AI 서버에 전송할 데이터
     data = {
-        "brand": "브랜드는: brand야, 참고할 references 사이트 주소도 줘",
+        "brand": brand,
         "cloth_size": cloth_size,
         "cloth_type": mapped_cloth_type,
-        "gender": gender,
+        "gender": map_gender(gender),
         "chest_circumference": chest_circumference,
         "shoulder_width": shoulder_width,
         "arm_length": arm_length,
