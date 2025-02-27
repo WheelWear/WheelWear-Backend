@@ -12,3 +12,4 @@ gunicorn
 requests
 django-storages
 google-cloud-storage
+django-filter

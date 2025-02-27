@@ -1,5 +1,6 @@
 from rest_framework import permissions, viewsets, status
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.permissions import IsAuthenticated
 from django.forms.models import model_to_dict
@@ -37,13 +38,15 @@ class VirtualTryOnImageViewSet(viewsets.ModelViewSet):
     VirtualTryOnImage에 대해 전체 CRUD 기능을 제공
     """
     permission_classes = [permissions.IsAuthenticated, IsOwner]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['saved']  # saved=True인 것만 필터링 가능
 
     def get_queryset(self):
         return VirtualTryOnImage.objects.filter(owner=self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'list':
-            return VirtualTryOnImageListSerializer
+            return VirtualTryOnImageDetailSerializer
         elif self.action == 'retrieve':
             return VirtualTryOnImageDetailSerializer
         else:
